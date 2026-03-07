@@ -33,6 +33,12 @@ enum ShadowMode {
   FULL
 }
 
+enum FarmerResponse {
+  ACCEPTED
+  REJECTED
+  PENDING
+}
+
 model User {
   id          String   @id @default(cuid())
   email       String   @unique
@@ -141,6 +147,7 @@ model GatewayHealth {
   lastHeartbeatAt         DateTime?
   nextHeartbeatAt         DateTime
   heartbeatIntervalHours  Int      @default(24)
+  lastHeartbeatResult     String?
   status                  String   @default("UNKNOWN")
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
@@ -280,19 +287,19 @@ model IrrigationEvent {
 }
 
 model AnomalyLog {
-  id              Int      @id @default(autoincrement())
+  id              Int            @id @default(autoincrement())
   sensorId        Int
   type            String
   description     String
-  confidenceScore Float
-  farmerResponse  String?
+  confidenceScore Int
+  farmerResponse  FarmerResponse?
   responseToken   String?
   resolvedAt      DateTime?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
   // Relations
-  sensor          Sensor   @relation(fields: [sensorId], references: [id])
-  farmer          User?    @relation(fields: [farmerId], references: [id])
+  sensor          Sensor         @relation(fields: [sensorId], references: [id])
+  farmer          User?          @relation(fields: [farmerId], references: [id])
   farmerId        String?
 }
 
