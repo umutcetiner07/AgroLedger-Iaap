@@ -1,0 +1,39 @@
+import { NextRequest, NextResponse } from "next/server"
+import { PrismaClient } from "../../../../generated/prisma"
+
+const prisma = new PrismaClient()
+
+export async function POST(req: NextRequest, { params }: { params: { token: string } }) {
+  const { response } = await req.json() // MANUAL_IRRIGATION or CONFIRMED
+
+  const anomaly = await prisma.anomalyLog.findFirst({
+    where: { responseToken: params.token }
+  })
+
+  if (!anomaly) return NextResponse.json({ error: "Invalid token" }, { status: 404 })
+
+  const tokenExpiry = new Date(anomaly.createdAt.getTime() + 30 * 60 * 1000) // 30 min
+  if (new Date() > tokenExpiry) return NextResponse.json({ error: "Token expired" }, { status: 410 })
+
+  await prisma.anomalyLog.update({
+    where: { id: anomaly.id },
+    data: {
+      farmerResponse: response,
+      responseToken: null, // invalidate
+      resolvedAt: new Date()
+    }
+  })
+
+  if (response === "MANUAL_IRRIGATION") {
+    // Farm'da manualIrrigationCount artır
+    const sensor = await prisma.sensor.findUnique({ where: { id: anomaly.sensorId } })
+    if (sensor) {
+      await prisma.farm.update({
+        where: { id: sensor.farmId },
+        data: { manualIrrigationCount: { increment: 1 } }
+      })
+    }
+  }
+
+  return NextResponse.json({ success: true })
+}

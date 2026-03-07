@@ -1,0 +1,327 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  COOP_MANAGER
+  FARMER
+  WATER_COMMITTEE
+}
+
+enum BaselineType {
+  PROXY
+  HYBRID
+  REAL
+}
+
+enum ShadowMode {
+  GHOST
+  LEARNING
+  FULL
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  password    String?
+  role        Role     @default(FARMER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  // Relations
+  accounts     Account[]
+  sessions     Session[]
+  cooperatives Cooperative[]
+  farms        Farm[]
+  contracts    Contract[]
+  anomalies    AnomalyLog[]
+  tickets      MaintenanceTicket[]
+  reports      ComplianceReport[]
+}
+
+model Account {
+  id                String @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Region {
+  id        Int      @id @default(autoincrement())
+  name      String
+  code      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Relations
+  cooperatives Cooperative[]
+  weatherLogs  WeatherLog[]
+  weatherAlerts WeatherAlert[]
+}
+
+model CropType {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  // Relations
+  farms       Farm[]
+}
+
+model WeatherAlert {
+  id          Int      @id @default(autoincrement())
+  regionId    Int
+  title       String
+  message     String
+  level       String   // e.g., WARNING, CRITICAL
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  // Relations
+  region      Region   @relation(fields: [regionId], references: [id])
+}
+
+model Cooperative {
+  id        Int      @id @default(autoincrement())
+  name      String
+  regionId  Int
+  managerId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Relations
+  region    Region   @relation(fields: [regionId], references: [id])
+  manager   User     @relation(fields: [managerId], references: [id])
+  farms     Farm[]
+  gateways  GatewayHealth[]
+}
+
+model GatewayHealth {
+  id                      Int      @id @default(autoincrement())
+  cooperativeId           Int
+  lastHeartbeatAt         DateTime?
+  nextHeartbeatAt         DateTime
+  heartbeatIntervalHours  Int      @default(24)
+  status                  String   @default("UNKNOWN")
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  // Relations
+  cooperative             Cooperative @relation(fields: [cooperativeId], references: [id])
+}
+
+model WeatherLog {
+  id        Int      @id @default(autoincrement())
+  regionId  Int
+  timestamp DateTime
+  tempC     Float?
+  humidity  Float?
+  rainfall  Float?
+  createdAt DateTime @default(now())
+  // Relations
+  region    Region   @relation(fields: [regionId], references: [id])
+}
+
+model Farm {
+  id          Int      @id @default(autoincrement())
+  name        String
+  farmerId    String
+  cooperativeId Int
+  cropTypeId  Int
+  sowingDate  DateTime
+  areaHa      Float
+  manualIrrigationCount Int @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  // Relations
+  farmer      User     @relation(fields: [farmerId], references: [id])
+  cooperative Cooperative @relation(fields: [cooperativeId], references: [id])
+  cropType    CropType @relation(fields: [cropTypeId], references: [id])
+  sensors     Sensor[]
+  contracts   Contract[]
+  scores      FieldHealthScore[]
+  waterSavings WaterSaving[]
+  shadowDecisions ShadowDecision[]
+  complianceReports ComplianceReport[]
+}
+
+model Contract {
+  id              Int      @id @default(autoincrement())
+  farmId          Int
+  farmerId        String
+  savingsSharePct Float
+  slaFrozen       Boolean  @default(false)
+  startDate       DateTime
+  endDate         DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  // Relations
+  farm            Farm     @relation(fields: [farmId], references: [id])
+  farmer          User     @relation(fields: [farmerId], references: [id])
+}
+
+model Sensor {
+  id            Int       @id @default(autoincrement())
+  farmId        Int
+  name          String
+  type          String
+  lat           Float?
+  lng           Float?
+  isEstimated   Boolean   @default(false)
+  battery       Float?
+  lastReadingAt DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  // Relations
+  farm          Farm      @relation(fields: [farmId], references: [id])
+  readings      SensorReading[]
+  events        IrrigationEvent[]
+  anomalies     AnomalyLog[]
+  tickets       MaintenanceTicket[]
+}
+
+model WaterSaving {
+  id            Int          @id @default(autoincrement())
+  farmId        Int
+  baselineType  BaselineType
+  savingsPct    Float
+  calculatedAt  DateTime     @default(now())
+  createdAt     DateTime     @default(now())
+  // Relations
+  farm          Farm         @relation(fields: [farmId], references: [id])
+}
+
+model ShadowDecision {
+  id          Int        @id @default(autoincrement())
+  farmId      Int
+  mode        ShadowMode
+  decision    String
+  appliedAt   DateTime   @default(now())
+  createdAt   DateTime   @default(now())
+  // Relations
+  farm        Farm       @relation(fields: [farmId], references: [id])
+}
+
+model FieldHealthScore {
+  id                Int      @id @default(autoincrement())
+  farmId            Int
+  score             Float
+  growthStageDays   Int
+  ndviValue         Float?
+  radarValue        Float?
+  ndviWeight        Float     @default(0.5)
+  radarWeight       Float     @default(0.5)
+  calculatedAt      DateTime @default(now())
+  createdAt         DateTime @default(now())
+  // Relations
+  farm              Farm     @relation(fields: [farmId], references: [id])
+}
+
+model SensorReading {
+  id          Int      @id @default(autoincrement())
+  sensorId    Int
+  timestamp   DateTime
+  value       Float
+  dataChannel String
+  isEstimated Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  // Relations
+  sensor      Sensor   @relation(fields: [sensorId], references: [id])
+}
+
+model IrrigationEvent {
+  id          Int      @id @default(autoincrement())
+  sensorId    Int
+  startTime   DateTime
+  endTime     DateTime?
+  volumeL     Float?
+  reason      String
+  createdAt   DateTime @default(now())
+  // Relations
+  sensor      Sensor   @relation(fields: [sensorId], references: [id])
+}
+
+model AnomalyLog {
+  id              Int      @id @default(autoincrement())
+  sensorId        Int
+  type            String
+  description     String
+  confidenceScore Float
+  farmerResponse  String?
+  responseToken   String?
+  resolvedAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  // Relations
+  sensor          Sensor   @relation(fields: [sensorId], references: [id])
+  farmer          User?    @relation(fields: [farmerId], references: [id])
+  farmerId        String?
+}
+
+model MaintenanceTicket {
+  id          Int      @id @default(autoincrement())
+  sensorId    Int
+  userId      String
+  title       String
+  description String
+  status      String   @default("OPEN")
+  priority    String   @default("MEDIUM")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  // Relations
+  sensor      Sensor   @relation(fields: [sensorId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model ComplianceReport {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  farmId      Int?
+  title       String
+  content     String
+  status      String   @default("DRAFT")
+  submittedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  // Relations
+  user        User     @relation(fields: [userId], references: [id])
+  farm        Farm?    @relation(fields: [farmId], references: [id])
+}
