@@ -34,9 +34,9 @@ enum ShadowMode {
 }
 
 enum FarmerResponse {
-  ACCEPTED
-  REJECTED
-  PENDING
+  MANUAL_IRRIGATION
+  CONFIRMED
+  NO_RESPONSE
 }
 
 model User {
@@ -226,14 +226,15 @@ model Sensor {
 }
 
 model WaterSaving {
-  id            Int          @id @default(autoincrement())
-  farmId        Int
-  baselineType  BaselineType
-  savingsPct    Float
-  calculatedAt  DateTime     @default(now())
-  createdAt     DateTime     @default(now())
+  id             String   @id @default(cuid())
+  farmId         Int
+  actualUsage    Float
+  baselineUsage  Float
+  savings        Float
+  baselineType   String   @default("HYBRID")
+  createdAt      DateTime @default(now())
   // Relations
-  farm          Farm         @relation(fields: [farmId], references: [id])
+  farm           Farm     @relation(fields: [farmId], references: [id])
 }
 
 model ShadowDecision {
@@ -291,7 +292,7 @@ model AnomalyLog {
   sensorId        Int
   type            String
   description     String
-  confidenceScore Int
+  confidenceScore Float          @default(0.0)
   farmerResponse  FarmerResponse?
   responseToken   String?
   resolvedAt      DateTime?
