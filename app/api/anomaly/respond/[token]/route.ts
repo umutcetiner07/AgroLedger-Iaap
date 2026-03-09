@@ -2,9 +2,6 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from '@/lib/prisma'
 
 export async function POST(req: NextRequest, { params }: { params: { token: string } }) {
-  // Kodun devamı...
-}
-export async function POST(req: NextRequest, { params }: { params: { token: string } }) {
   const { response } = await req.json() // MANUAL_IRRIGATION or CONFIRMED
 
   const anomaly = await prisma.anomalyLog.findFirst({
