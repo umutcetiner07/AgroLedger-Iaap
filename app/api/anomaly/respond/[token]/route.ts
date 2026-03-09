@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
-import { PrismaClient } from "../../../../generated/prisma"
+import { prisma } from '@/lib/prisma'
 
-const prisma = new PrismaClient()
-
+export async function POST(req: NextRequest, { params }: { params: { token: string } }) {
+  // Kodun devamı...
+}
 export async function POST(req: NextRequest, { params }: { params: { token: string } }) {
   const { response } = await req.json() // MANUAL_IRRIGATION or CONFIRMED
 
