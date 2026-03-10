@@ -3,7 +3,8 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient } from "../generated/prisma"
 import bcrypt from "bcryptjs"
-import { Role } from "@prisma/client"
+
+// Role importunu kaldırdık, string olarak kullanacağız
 
 const prisma = new PrismaClient()
 
@@ -51,7 +52,8 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token) {
         session.user.id = token.sub!
-        session.user.role = token.role as Role
+        // Role tipini string olarak cast ettik
+        session.user.role = token.role as string 
       }
       return session
     }
