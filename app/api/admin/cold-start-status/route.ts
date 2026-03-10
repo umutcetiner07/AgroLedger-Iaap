@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 // Tahmini REAL geçiş tarihi hesaplama fonksiyonu
 function tahminiRealGecisTarihiHesapla(waterSaving: any): Date | null {
