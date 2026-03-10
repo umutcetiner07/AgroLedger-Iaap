@@ -1,12 +1,15 @@
 import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import { PrismaClient } from "../generated/prisma"
+import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
+<<<<<<< HEAD
 
 // Role importunu kaldırdık, string olarak kullanacağız
+=======
+>>>>>>> e4bd173 (AI fix all prisma imports)
 
-const prisma = new PrismaClient()
+type Role = "SUPER_ADMIN" | "COOP_MANAGER" | "FARMER" | "WATER_COMMITTEE"
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,

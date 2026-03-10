@@ -1,6 +1,4 @@
-import { PrismaClient } from "../generated/prisma"
-
-const prisma = new PrismaClient()
+import { prisma } from "@/lib/prisma"
 
 export async function canDecide(farmId: number): Promise<{ can: boolean, status: string }> {
   const sensors = await prisma.sensor.findMany({

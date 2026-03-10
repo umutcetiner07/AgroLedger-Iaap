@@ -1,6 +1,5 @@
-import { PrismaClient, ShadowMode } from "../generated/prisma"
-
-const prisma = new PrismaClient()
+import { prisma } from "@/lib/prisma"
+import { ShadowMode } from "../generated/prisma"
 
 export async function getShadowMode(farmId: number): Promise<ShadowMode> {
   // Simple logic based on farmId

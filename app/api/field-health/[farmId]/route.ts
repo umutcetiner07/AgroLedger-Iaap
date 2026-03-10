@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { PrismaClient } from "../../../../generated/prisma"
-
-const prisma = new PrismaClient()
+import { prisma } from "@/lib/prisma"
 
 function getPhenologyWeights(daysSinceSowing: number) {
   if (daysSinceSowing <= 15) return { ndvi: 0.3, radar: 0.7 }
