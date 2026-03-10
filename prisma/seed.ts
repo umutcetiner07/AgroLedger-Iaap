@@ -56,10 +56,10 @@ async function main() {
     }
   }
 
-  // WaterSaving
-  await prisma.waterSaving.create({ data: { farmId: farms[0].id, baselineType: 'PROXY', savingsPct: 15.5 } })
-  await prisma.waterSaving.create({ data: { farmId: farms[1].id, baselineType: 'HYBRID', savingsPct: 20.0 } })
-  await prisma.waterSaving.create({ data: { farmId: farms[2].id, baselineType: 'REAL', savingsPct: 25.0 } })
+  // WaterSaving — schema alanları: actualUsage, baselineUsage, savings, baselineType
+  await prisma.waterSaving.create({ data: { farmId: farms[0].id, actualUsage: 85, baselineUsage: 100, savings: 15, baselineType: 'PROXY' } })
+  await prisma.waterSaving.create({ data: { farmId: farms[1].id, actualUsage: 80, baselineUsage: 100, savings: 20, baselineType: 'HYBRID' } })
+  await prisma.waterSaving.create({ data: { farmId: farms[2].id, actualUsage: 75, baselineUsage: 100, savings: 25, baselineType: 'REAL' } })
 
   // AnomalyLogs
   await prisma.anomalyLog.create({ data: { sensorId: sensors[0].id, type: 'LOW_MOISTURE', description: 'Moisture below threshold', confidenceScore: 0.85, farmerResponse: 'MANUAL_IRRIGATION', responseToken: 'token123' } })
