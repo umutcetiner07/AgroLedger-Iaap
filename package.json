@@ -7,7 +7,9 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
@@ -36,8 +38,12 @@
     "tailwindcss": "^4.2.1"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/leaflet": "^1.9.21",
     "@types/react": "19.2.14",
+    "jest": "^30.3.0",
+    "jest-environment-node": "^30.3.0",
+    "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
