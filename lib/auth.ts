@@ -1,67 +1,86 @@
-import { NextAuthOptions } from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials"
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import { prisma } from "@/lib/prisma"
-import bcrypt from "bcryptjs"
-<<<<<<< HEAD
+/**
+ * NextAuth yapılandırması — kimlik doğrulama ve yetkilendirme.
+ * FIX (P0): Çözülmemiş Git merge conflict marker'ları kaldırıldı (<<<<<<< HEAD bloğu).
+ * FIX (P0): `PrismaAdapter(prisma) as any` cast'i kaldırıldı; doğrudan Adapter tipi kullanıldı.
+ * FIX: Role tipi artık Prisma schema enum'u ile hizalı string literal union olarak tanımlandı.
+ */
+import { type NextAuthOptions } from 'next-auth'
+import { type Adapter } from 'next-auth/adapters'
+import CredentialsProvider from 'next-auth/providers/credentials'
+import { PrismaAdapter } from '@auth/prisma-adapter'
+import { prisma } from '@/lib/prisma'
+import bcrypt from 'bcryptjs'
 
-// Role importunu kaldırdık, string olarak kullanacağız
-=======
->>>>>>> e4bd173 (AI fix all prisma imports)
-
-type Role = "SUPER_ADMIN" | "COOP_MANAGER" | "FARMER" | "WATER_COMMITTEE"
+// Prisma schema'daki Role enum ile birebir eşleşen tip
+type Role = 'SUPER_ADMIN' | 'COOP_MANAGER' | 'FARMER' | 'WATER_COMMITTEE'
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma) as any,
+  // Adapter tip dönüşümü: @auth/prisma-adapter v2, NextAuth v4 Adapter arayüzünü sağlar
+  adapter: PrismaAdapter(prisma) as Adapter,
+
   providers: [
     CredentialsProvider({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null
+        // Eksik kimlik bilgisi kontrolü
+        if (!credentials?.email || !credentials?.password) {
+          return null
+        }
 
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email }
+          where: { email: credentials.email },
+          select: { id: true, email: true, name: true, password: true, role: true },
         })
 
-        if (!user || !user.password) return null
+        if (!user?.password) return null
 
-        const isValid = await bcrypt.compare(credentials.password, user.password)
+        const isPasswordValid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        )
 
-        if (!isValid) return null
+        if (!isPasswordValid) return null
 
         return {
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role
+          role: user.role as Role,
         }
-      }
-    })
+      },
+    }),
   ],
+
   session: {
-    strategy: "jwt"
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 gün
   },
+
   callbacks: {
     async jwt({ token, user }) {
+      // İlk oturum açmada kullanıcı rolleri token'a eklenir
       if (user) {
-        token.role = user.role
+        token.id = user.id
+        token.role = user.role as Role
       }
       return token
     },
+
     async session({ session, token }) {
-      if (token) {
-        session.user.id = token.sub!
-        // Role tipini string olarak cast ettik
-        session.user.role = token.role as string 
+      // Token verilerini oturum nesnesine aktar — her request'te kullanılabilir
+      if (token && session.user) {
+        session.user.id = token.sub as string
+        session.user.role = token.role as Role
       }
       return session
-    }
+    },
   },
+
   pages: {
-    signIn: "/login"
-  }
+    signIn: '/login',
+  },
 }
