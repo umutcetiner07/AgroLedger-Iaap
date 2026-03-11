@@ -11,8 +11,8 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 
-// Prisma schema'daki Role enum ile birebir eşleşen tip
-type Role = 'SUPER_ADMIN' | 'COOP_MANAGER' | 'FARMER' | 'WATER_COMMITTEE'
+// Prisma schema'daki Role enum ile birebir eşleşen tip — export edildi (next-auth types tarafından başvurulur)
+export type Role = 'SUPER_ADMIN' | 'COOP_MANAGER' | 'FARMER' | 'WATER_COMMITTEE'
 
 export const authOptions: NextAuthOptions = {
   // Adapter tip dönüşümü: @auth/prisma-adapter v2, NextAuth v4 Adapter arayüzünü sağlar
