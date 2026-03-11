@@ -3,6 +3,7 @@
  * FIX (P0): CRON_SECRET header doğrulaması eklendi — yetkisiz tetiklemeyi engeller.
  * Her kooperatifin gateway'leri güncellenip bakım ticket'ları oluşturulur.
  */
+export const dynamic = 'force-dynamic'
 import { type NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { GatewayService } from '@/lib/gatewayService'

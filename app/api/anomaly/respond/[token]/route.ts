@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from '@/lib/prisma'
 
+// FIX (Vercel Build): Prisma'nın build-time statik değerlendirmesini önle
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest, { params }: { params: { token: string } }) {
   const { response } = await req.json()
 

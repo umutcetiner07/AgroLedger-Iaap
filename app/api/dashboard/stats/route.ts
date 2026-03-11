@@ -3,7 +3,10 @@
  * FIX (P1): `findMany` full table scan → `aggregate` + `groupBy` sorgularına dönüştürüldü.
  * FIX (P1): Günlük trend için `$queryRaw` ile DATE_TRUNC kullanıldı — doğru gruplama.
  * FIX: Bölgesel dağılım DB tarafında groupBy ile hesaplanıyor, JS'e veri çekilmiyor.
+ * FIX (Vercel Build): force-dynamic ile build-time Prisma init hatası önlendi.
  */
+export const dynamic = 'force-dynamic'
+
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 

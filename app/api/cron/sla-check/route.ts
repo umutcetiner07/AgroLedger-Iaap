@@ -4,6 +4,7 @@
  * FIX: try-catch ve anlamlı loglama eklendi.
  * Aktif hava uyarısı varsa tüm aktif sözleşmeler dondurulur.
  */
+export const dynamic = 'force-dynamic'
 import { type NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 

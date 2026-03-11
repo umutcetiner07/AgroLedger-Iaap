@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+// FIX (Vercel Build): Prisma'nın build-time statik değerlendirmesini önle
+export const dynamic = 'force-dynamic';
+
 // Tahmini REAL geçiş tarihi hesaplama fonksiyonu
 function tahminiRealGecisTarihiHesapla(waterSaving: any): Date | null {
   // Örnek algoritma: createdAt + 90 gün
