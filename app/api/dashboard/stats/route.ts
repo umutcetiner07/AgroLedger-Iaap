@@ -35,9 +35,8 @@ export async function GET(): Promise<NextResponse> {
         }),
 
         // Bölgesel istatistikler — DB join + group ile
-        prisma.$queryRaw<
-          Array<{ regionName: string; totalSavings: number; farmCount: bigint }>
-        >`
+        // FIX: moduleResolution:bundler $queryRaw<T> generics yerine typed variable kullanılıyor
+        prisma.$queryRaw`
           SELECT
             r.name AS "regionName",
             COALESCE(SUM(ws.savings), 0)::float AS "totalSavings",
@@ -48,7 +47,7 @@ export async function GET(): Promise<NextResponse> {
           LEFT JOIN "WaterSaving" ws ON ws."farmId" = f.id
           GROUP BY r.id, r.name
           ORDER BY "totalSavings" DESC
-        `,
+        ` as Promise<Array<{ regionName: string; totalSavings: number; farmCount: bigint }>>,
 
         // Anomali istatistikleri — son 30 gün
         prisma.anomalyLog.groupBy({
@@ -65,7 +64,7 @@ export async function GET(): Promise<NextResponse> {
         }),
 
         // Günlük trend — DATE_TRUNC ile doğru günlük gruplama (PostgreSQL)
-        prisma.$queryRaw<DailyTrendRow[]>`
+        prisma.$queryRaw`
           SELECT
             DATE_TRUNC('day', "createdAt") AS day,
             COALESCE(SUM(savings), 0)::float AS savings
@@ -73,7 +72,7 @@ export async function GET(): Promise<NextResponse> {
           WHERE "createdAt" >= ${sevenDaysAgo}
           GROUP BY DATE_TRUNC('day', "createdAt")
           ORDER BY day ASC
-        `,
+        ` as Promise<DailyTrendRow[]>,
       ])
 
     const totalSavings = totalAgg._sum.savings ?? 0
@@ -93,10 +92,10 @@ export async function GET(): Promise<NextResponse> {
         avgConfidence: Math.round((stat._avg.confidenceScore ?? 0) * 100),
         count: stat._count.id,
       })),
-      gatewayHealth: gatewayStats.reduce<Record<string, number>>((acc, stat) => {
+      gatewayHealth: gatewayStats.reduce((acc: Record<string, number>, stat) => {
         acc[stat.status] = stat._count.id
         return acc
-      }, {}),
+      }, {} as Record<string, number>),
       dailyTrend: dailyTrend.map((row) => ({
         date: row.day.toISOString().split('T')[0],
         savings: Math.round(row.savings),

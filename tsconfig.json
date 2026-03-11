@@ -33,6 +33,7 @@
     "__tests__",
     "__mocks__",
     "jest.config.ts",
-    "prisma/seed.ts"
+    "prisma/seed.ts",
+    "prisma.config.ts"
   ]
 }
