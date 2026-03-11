@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma"
-// FIX: Prisma generate öncesi type erişimi için string literal kullanıldı
-type ShadowMode = 'GHOST' | 'LEARNING' | 'FULL'
+
+type ShadowMode = "GHOST" | "LEARNING" | "FULL"
 
 export async function getShadowMode(farmId: number): Promise<ShadowMode> {
   // Simple logic based on farmId
