@@ -1,4 +1,4 @@
-name: CI
+﻿name: CI
 
 on:
   push:
@@ -27,6 +27,6 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          DATABASE_URL: `${{ secrets.DATABASE_URL }}` 
-          NEXTAUTH_SECRET: `${{ secrets.NEXTAUTH_SECRET }}` 
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXTAUTH_URL: 'https://example.com'
