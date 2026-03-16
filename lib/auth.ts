@@ -1,13 +1,13 @@
 import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { PrismaAdapter } from "@auth/prisma-adapter"
+
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
 type Role = "SUPER_ADMIN" | "COOP_MANAGER" | "FARMER" | "WATER_COMMITTEE"
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma) as any,
+
   providers: [
     CredentialsProvider({
       name: "credentials",
