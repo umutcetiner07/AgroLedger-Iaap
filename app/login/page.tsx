@@ -15,12 +15,14 @@ export default function LoginPage() {
     const res = await signIn("credentials", {
       email,
       password,
-      redirect: true,
+      redirect: false,
       callbackUrl: "/"
     });
-    if (res?.error) {
-      setError(res.error);
-      setLoading(false);
+    if (res?.ok) {
+      window.location.href = "/"
+    } else {
+      setError("Email veya şifre hatalı")
+      setLoading(false)
     }
   };
 
