@@ -1,7 +1,7 @@
 {
-  "name": "agroledger-iaap",
-  "version": "1.0.0",
-  "description": "",
+  "name": "berekeai-agroledger",
+  "version": "1.1.0",
+  "description": "BerekeAI — AgroLedger Modülü: Irrigation as a Service (IaaS) for Central Asia",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
@@ -11,8 +11,15 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "agritech",
+    "fintech",
+    "irrigation",
+    "kazakhstan",
+    "berekeai",
+    "agroledger"
+  ],
+  "author": "Umut ÇETİNER <umutcetiner@gmail.com>",
   "license": "ISC",
   "type": "commonjs",
   "prisma": {

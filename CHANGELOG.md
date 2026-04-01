@@ -1,6 +1,6 @@
 # CHANGELOG
 
-All notable changes to AgroLedger-Iaap are documented in this file.  
+All notable changes to **BerekeAI — AgroLedger Modülü** are documented in this file.  
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and [Semantic Versioning](https://semver.org/).
 
 ---
@@ -117,6 +117,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and [Sem
 - Admin, farmer, and cooperative manager role-based routing via middleware
 - `ConfidenceScoreChart` and `LiveWaterSavingsCounter` dashboard components
 - Leaflet map integration and Recharts visualization
+
+---
+
+**BerekeAI — AgroLedger Modülü**  
+*Orta Asya Tarımının İşletim Sistemi*
 
 [1.1.0]: https://github.com/umutcetiner07/AgroLedger-Iaap/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/umutcetiner07/AgroLedger-Iaap/releases/tag/v1.0.0
