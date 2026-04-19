@@ -1,0 +1,59 @@
+🌱 BerekeAI AgroLedger - Kazakh Farmers Seed Starting...
+🧹 Cleaning existing data...
+✅ All data cleaned
+📍 Creating regions...
+🌾 Creating crop types...
+Creating admin user...
+Creating cooperatives...
+👨‍🌾 Creating farmers...
+🏞️ Creating farms...
+📊 Creating field health scores...
+💧 Creating water savings data...
+💳 Creating credit applications...
+📡 Creating sensors...
+
+📊 SEED SUMMARY:
+📍 Regions: 5
+🤝 Cooperatives: 5
+🌾 Crop Types: 5
+👨‍🌾 Farmers: 5
+🏞️ Farms: 10
+📊 Field Health Scores: 10
+💧 Water Savings: 10
+💳 Credit Applications: 5
+📡 Sensors: 50
+
+🎉 KAZAKH FARMERS DATA SUCCESSFULLY SEEDED!
+🌐 BerekeAI AgroLedger is ready for testing!
+
+🔑 FARMER CREDENTIALS:
+1. Aibek Dzhaksybekov
+   Email: aibek.dzhaksybekov@berekeai.kz
+   Password: kazakh2024
+   Region: Almaty Region
+   Farms: 2
+
+2. Nursultan Bekov
+   Email: nursultan.bekov@berekeai.kz
+   Password: kazakh2024
+   Region: Turkestan Region
+   Farms: 2
+
+3. Zarina Akhmetova
+   Email: zarina.akhmetova@berekeai.kz
+   Password: kazakh2024
+   Region: Karaganda Region
+   Farms: 2
+
+4. Marat Seitkali
+   Email: marat.seitkali@berekeai.kz
+   Password: kazakh2024
+   Region: Pavlodar Region
+   Farms: 2
+
+5. Aigul Nurmagambetova
+   Email: aigul.nurmagambetova@berekeai.kz
+   Password: kazakh2024
+   Region: Kostanay Region
+   Farms: 2
+
