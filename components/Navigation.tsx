@@ -16,7 +16,7 @@ export default function Navigation() {
             <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">AL</span>
             </div>
-            <span className="text-white font-bold text-lg">AgroLedger</span>
+            <span className="text-white font-bold text-lg">AgrOracle</span>
           </Link>
 
           {/* Desktop Navigation */}

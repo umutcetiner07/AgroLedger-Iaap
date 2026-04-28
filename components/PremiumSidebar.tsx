@@ -71,7 +71,7 @@ export default function PremiumSidebar() {
               animate={{ opacity: 1, x: 0 }}
               className="text-display text-xl font-light text-white"
             >
-              AgroLedger
+              AgrOracle
             </motion.div>
           )}
         </div>

@@ -15,7 +15,7 @@ export default function Dashboard() {
         {/* Header */}
         <div className="flex justify-between items-center mb-10">
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight">AgroLedger Analytics</h1>
+            <h1 className="text-3xl font-extrabold tracking-tight">AgrOracle Analytics</h1>
             <p className="text-slate-400 mt-1">Kazakistan Akıllı Sulama Sistemleri Veri Paneli</p>
           </div>
           <div className="bg-slate-800 px-4 py-2 rounded-lg border border-slate-700">

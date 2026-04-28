@@ -1,6 +1,6 @@
 # CHANGELOG
 
-All notable changes to AgroLedger-Iaap are documented in this file.  
+All notable changes to AgrOracle-Iaap are documented in this file.  
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and [Semantic Versioning](https://semver.org/).
 
 ---
@@ -118,5 +118,5 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and [Sem
 - `ConfidenceScoreChart` and `LiveWaterSavingsCounter` dashboard components
 - Leaflet map integration and Recharts visualization
 
-[1.1.0]: https://github.com/umutcetiner07/AgroLedger-Iaap/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/umutcetiner07/AgroLedger-Iaap/releases/tag/v1.0.0
+[1.1.0]: https://github.com/umutcetiner07/AgrOracle-Iaap/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/umutcetiner07/AgrOracle-Iaap/releases/tag/v1.0.0

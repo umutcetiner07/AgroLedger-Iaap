@@ -1,4 +1,4 @@
-# 🌾 AgroLedger IaaP v3.1 Final Release
+# 🌾 AgrOracle IaaP v3.1 Final Release
 
 ## AI-Powered Smart Irrigation & Supply Chain Finance Ecosystem for Kazakhstan
 
@@ -8,7 +8,7 @@
 
 ## 📊 Executive Summary
 
-AgroLedger IaaP (Irrigation as a Partner) is a sophisticated AI-powered smart irrigation ecosystem designed specifically for Kazakhstan's agricultural sector. Our platform transforms traditional farming into a data-driven, transparent, and financially optimized operation.
+AgrOracle IaaP (Irrigation as a Partner) is a sophisticated AI-powered smart irrigation ecosystem designed specifically for Kazakhstan's agricultural sector. Our platform transforms traditional farming into a data-driven, transparent, and financially optimized operation.
 
 ### 🎯 Key Investment Highlights
 
@@ -269,8 +269,8 @@ IoT Sensors → Edge Processing → Cloud Analytics → AI Engine → Dashboard
 
 ```bash
 # Clone repository
-git clone https://github.com/umutcetiner07/AgroLedger-Iaap.git
-cd AgroLedger-Iaap
+git clone https://github.com/umutcetiner07/AgrOracle-Iaap.git
+cd AgrOracle-Iaap
 
 # Install dependencies
 npm install
@@ -295,7 +295,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🌟 Ready for Investment
 
-**AgroLedger IaaP v3.1** is production-ready and seeking strategic investment partners for regional expansion and technology enhancement. Join us in revolutionizing agriculture through AI-powered transparency and efficiency.
+**AgrOracle IaaP v3.1** is production-ready and seeking strategic investment partners for regional expansion and technology enhancement. Join us in revolutionizing agriculture through AI-powered transparency and efficiency.
 
 **Contact:** [umutcetiner07](https://github.com/umutcetiner07) | **Live Demo:** [kazakhagro.com](https://kazakhagro.com)
 
